@@ -34,15 +34,15 @@ In order to create a new simulation:
 
 # Martin's installation notes
 
-## Step 1: install external libraries using the sh scripts.
+### Step 1: install external libraries using the sh scripts.
 
 Note: I had to update the gmsh version to 4.13.1 in optional_install_gmsh.sh, because the hardcoded version was 4.5.X, which is not compatible with the examples using cohomology bases.
 
-## Step 2: Create new simulation from the examples
+### Step 2: Create new simulation from the examples
 
 clone the "default" simulation, and create a new folder with the main.cpp from the desired example.
 
-## Step 3: Build
+### Step 3: Build
 
 `` sh
 mkdir -p build
@@ -51,10 +51,10 @@ cmake ..
 cmake --build . -j$(nproc)
 ``
 
-## Step 4: Add the libraries to the LD_LIBRARY_PATH
+### Step 4: Add the libraries to the LD_LIBRARY_PATH
 export LD_LIBRARY_PATH="$HOME/SLlibs/petsc/arch-linux-c-opt/lib:$HOME/SLlibs/gmsh/lib:$LD_LIBRARY_PATH"
 
-## Step 5: Run the simulation
+### Step 5: Run the simulation
 
 The simulation binaries are located in the build folder. You can run them directly from there. For example, to run the "example" simulation, you would do:
 
@@ -64,3 +64,9 @@ cd simulations
 cd default
 ./default
 ``
+
+
+# Improved cmake build system in this PR
+
+https://github.com/halbux/sparselizard/pull/66
+
