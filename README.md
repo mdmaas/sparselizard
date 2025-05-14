@@ -1,23 +1,35 @@
-# Build instructions
+# Martin's installation notes
 
-Run the scripts in the 'install_external_libs' folder then configure and build:
-```bash
-mkdir build && cd build
+### Step 1: install external libraries using the sh scripts.
+
+Note: I had to update the gmsh version to 4.13.1 in optional_install_gmsh.sh, because the hardcoded version was 4.5.X, which is not compatible with the examples using cohomology bases.
+
+### Step 2: Build
+
+`` sh
+mkdir -p build
+cd build
 cmake ..
 cmake --build . -j$(nproc)
-```
+``
 
----
+### Step 3: Add the libraries to the LD_LIBRARY_PATH
 
-Provide a custom path to the petsc, gmsh (optional) or mpi (optional) folder with:
-```bash
-cmake .. -DPETSC_PATH=/yourpath/petsc -DGMSH_PATH=/yourpath/gmsh -DMPI_PATH=/yourpath/mpi
-```
+`` sh
+export LD_LIBRARY_PATH="$HOME/SLlibs/petsc/arch-linux-c-opt/lib:$HOME/SLlibs/gmsh/lib:$LD_LIBRARY_PATH"
+``
 
-It may be convenient to use the cmake GUI:
-```bash
-cmake-gui
-```
+### Step 4: Run the simulation
+
+The simulation binaries are located in the build folder. You can run them directly from there. For example, to run the "example" simulation, you would do:
+
+`` sh
+cd build
+cd simulations
+cd default
+./default
+``
+
 
 # Add project
 
@@ -32,41 +44,9 @@ In order to create a new simulation:
 
 
 
-# Martin's installation notes
-
-### Step 1: install external libraries using the sh scripts.
-
-Note: I had to update the gmsh version to 4.13.1 in optional_install_gmsh.sh, because the hardcoded version was 4.5.X, which is not compatible with the examples using cohomology bases.
-
-### Step 2: Create new simulation from the examples
-
-clone the "default" simulation, and create a new folder with the main.cpp from the desired example.
-
-### Step 3: Build
-
-`` sh
-mkdir -p build
-cd build
-cmake ..
-cmake --build . -j$(nproc)
-``
-
-### Step 4: Add the libraries to the LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="$HOME/SLlibs/petsc/arch-linux-c-opt/lib:$HOME/SLlibs/gmsh/lib:$LD_LIBRARY_PATH"
-
-### Step 5: Run the simulation
-
-The simulation binaries are located in the build folder. You can run them directly from there. For example, to run the "example" simulation, you would do:
-
-`` sh
-cd build
-cd simulations
-cd default
-./default
-``
-
-
 # Improved cmake build system in this PR
 
+Tried to merge this PR with a new cmake build system that uses system packages instead of custom shell scripts
 https://github.com/halbux/sparselizard/pull/66
 
+I could not get the latest version of gmsh using the system package manager as I am on Ubuntu 22, so I had to use the custom sh script to install gmsh. The PR could be probably merged and the custom sh scripts removed if you are on a newer version of Ubuntu or other distro that has the latest gmsh version in the system package manager.
